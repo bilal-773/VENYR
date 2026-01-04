@@ -19,7 +19,7 @@ const testimonials = [
     id: 2,
     name: 'Sarah Williams',
     role: 'Fashion Designer',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
     rating: 5,
     text: 'VENYR\'s Chelsea boots are absolutely stunning. The leather quality is unmatched, and they go perfectly with everything in my wardrobe.',
   },

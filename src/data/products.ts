@@ -20,9 +20,9 @@ export const watches: Product[] = [
     id: 'watch-1',
     name: 'Chronograph Elite',
     price: Math.round(289 * USD_TO_PKR),
-    image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
     images: [
-      'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80',
+      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
       'https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=800&q=80',
     ],
     category: 'watches',
@@ -108,9 +108,9 @@ export const watches: Product[] = [
     id: 'watch-7',
     name: 'Slim Dress Watch',
     price: Math.round(189 * USD_TO_PKR),
-    image: 'https://images.unsplash.com/photo-1551818255-d609c39a0f5e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=800&q=80',
     images: [
-      'https://images.unsplash.com/photo-1551818255-d609c39a0f5e?w=800&q=80',
+      'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=800&q=80',
     ],
     category: 'watches',
     description: 'Ultra-thin profile and refined aesthetics make this the perfect formal companion.',

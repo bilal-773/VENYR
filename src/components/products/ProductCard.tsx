@@ -58,7 +58,8 @@ export function ProductCard({ product, className, index = 0 }: ProductCardProps)
           )}
           <motion.img
             src={product.image}
-            alt={product.name}
+            alt={`${product.name} - Premium ${product.category === 'watches' ? 'Watch' : 'Chelsea Boot'} by VENYR`}
+            loading="lazy"
             className={cn(
               'w-full h-full object-cover',
               imageLoaded ? 'opacity-100' : 'opacity-0'

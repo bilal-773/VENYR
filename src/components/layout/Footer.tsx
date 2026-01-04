@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, ArrowUpRight } from 'lucide-react';
+import { Instagram, Twitter, Shield, Lock, Truck, RotateCcw, CreditCard } from 'lucide-react';
 
 const quickLinks = [
   { name: 'Watches', path: '/watches' },
@@ -108,10 +108,61 @@ export function Footer() {
 
       <div className="divider" />
 
+      {/* Trust Badges */}
+      <div className="container-main py-12 border-y border-border">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Lock className="w-5 h-5 text-primary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="font-medium">SSL Secure</p>
+              <p className="text-xs text-muted-foreground">256-bit Encryption</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Shield className="w-5 h-5 text-primary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="font-medium">Lifetime Warranty</p>
+              <p className="text-xs text-muted-foreground">Craftsmanship Guaranteed</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Truck className="w-5 h-5 text-primary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="font-medium">Free Shipping</p>
+              <p className="text-xs text-muted-foreground">Worldwide Delivery</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <RotateCcw className="w-5 h-5 text-primary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="font-medium">30-Day Returns</p>
+              <p className="text-xs text-muted-foreground">Hassle-Free Policy</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 pt-8 border-t border-border">
+          <p className="text-xs text-muted-foreground text-center mb-4">We accept:</p>
+          <div className="flex justify-center items-center gap-4 flex-wrap">
+            <div className="px-4 py-2 bg-secondary rounded-lg text-xs font-medium">Visa</div>
+            <div className="px-4 py-2 bg-secondary rounded-lg text-xs font-medium">Mastercard</div>
+            <div className="px-4 py-2 bg-secondary rounded-lg text-xs font-medium">PayPal</div>
+            <div className="px-4 py-2 bg-secondary rounded-lg text-xs font-medium">Amex</div>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Bar */}
       <div className="container-main py-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>2024 VENYR. All rights reserved.</p>
+          <p>© 2025 VENYR. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary transition-colors duration-200">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-colors duration-200">Terms of Service</a>
