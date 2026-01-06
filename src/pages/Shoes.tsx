@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Filter, X, Loader2 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/products/ProductCard';
@@ -14,7 +14,18 @@ export default function Shoes() {
     sizes: [],
     colors: [],
   });
-  const { data: shoes = [], isLoading } = useProductsByCategory('shoes');
+  const { data: shoes = [], isLoading, error } = useProductsByCategory('shoes');
+
+  // Debug logging
+  useEffect(() => {
+    if (!isLoading) {
+      console.log('[SHOES PAGE] Products loaded:', shoes.length);
+      console.log('[SHOES PAGE] Products data:', shoes);
+      if (error) {
+        console.error('[SHOES PAGE] Error:', error);
+      }
+    }
+  }, [shoes, isLoading, error]);
 
   const filteredProducts = useMemo(() => {
     if (!shoes.length) return [];
@@ -162,15 +173,31 @@ export default function Shoes() {
                 ))}
               </div>
 
-              {filteredProducts.length === 0 && (
+              {filteredProducts.length === 0 && !isLoading && (
                 <div className="text-center py-20">
-                  <p className="text-muted-foreground mb-4">No products match your filters.</p>
-                  <button
-                    onClick={() => setFilters({ priceRange: null, sizes: [], colors: [] })}
-                    className="btn-secondary"
-                  >
-                    Clear Filters
-                  </button>
+                  {shoes.length === 0 ? (
+                    <>
+                      <p className="text-muted-foreground mb-2 text-lg">No shoes found in database.</p>
+                      <p className="text-muted-foreground text-sm mb-4">
+                        Check browser console for debugging info.
+                      </p>
+                      {error && (
+                        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-4 max-w-md mx-auto">
+                          <p className="text-destructive text-sm">Error: {error.message || 'Failed to load products'}</p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-muted-foreground mb-4">No products match your filters.</p>
+                      <button
+                        onClick={() => setFilters({ priceRange: null, sizes: [], colors: [] })}
+                        className="btn-secondary"
+                      >
+                        Clear Filters
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>

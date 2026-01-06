@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 const testimonials = [
   {
     id: 1,
-    name: 'Michael Chen',
+    name: 'Ahmed Ali',
     role: 'Watch Collector',
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80',
     rating: 5,
@@ -17,7 +17,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: 'Sarah Williams',
+    name: 'Fatima Khan',
     role: 'Fashion Designer',
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
     rating: 5,
@@ -25,7 +25,7 @@ const testimonials = [
   },
   {
     id: 3,
-    name: 'James Rodriguez',
+    name: 'Hassan Malik',
     role: 'Entrepreneur',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
     rating: 5,
@@ -33,7 +33,7 @@ const testimonials = [
   },
   {
     id: 4,
-    name: 'Emma Thompson',
+    name: 'Ayesha Sheikh',
     role: 'Architect',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
     rating: 5,

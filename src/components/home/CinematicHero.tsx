@@ -108,7 +108,7 @@ export function CinematicHero() {
               transition={{ duration: 1.3, repeat: Infinity }}
             />
             <span className="text-primary text-xs font-medium uppercase tracking-[0.2em]">
-              NEW COLLECTION 2025
+              NEW COLLECTION 2026
             </span>
           </motion.div>
 

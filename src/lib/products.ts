@@ -16,10 +16,20 @@ export async function fetchProducts(): Promise<Product[]> {
       .from("products")
       .select("*");
 
+    // ✅ STEP 3 — LOG what Supabase returns (THIS WILL EXPOSE IT)
+    console.log("[ALL PRODUCTS] Fetched products:", data);
+    console.log("[ALL PRODUCTS] Error:", error);
+    console.log("[ALL PRODUCTS] Data length:", data?.length || 0);
+
     if (error) {
       console.error("Error fetching products:", error);
       // Return empty array instead of throwing to prevent app crash
       return [];
+    }
+
+    // ❌ If data = [] → filter mismatch or no products in database
+    if (!data || data.length === 0) {
+      console.warn("⚠️ No products found in database. Check if products table has data.");
     }
 
     // Map database fields to Product interface if needed
@@ -34,7 +44,7 @@ export async function fetchProducts(): Promise<Product[]> {
         price: item.price,
         image: primaryImage,
         images: imageArray.length > 0 ? imageArray : [primaryImage],
-        category: item.category,
+        category: (item.category || '').toLowerCase() as 'watches' | 'shoes', // Normalize to lowercase for frontend
         description: item.description || "",
         details: item.details || [],
         sizes: item.sizes || [],
@@ -64,6 +74,10 @@ export async function fetchProductById(productId: string): Promise<Product | nul
       .eq("id", productId)
       .single();
 
+    // ✅ STEP 3 — LOG what Supabase returns (THIS WILL EXPOSE IT)
+    console.log(`[PRODUCT ${productId}] Fetched product:`, data);
+    console.log(`[PRODUCT ${productId}] Error:`, error);
+
     if (error) {
       console.error("Error fetching product:", error);
       return null;
@@ -82,7 +96,7 @@ export async function fetchProductById(productId: string): Promise<Product | nul
       price: data.price,
       image: primaryImage,
       images: imageArray.length > 0 ? imageArray : [primaryImage],
-      category: data.category,
+      category: (data.category || '').toLowerCase() as 'watches' | 'shoes', // Normalize to lowercase for frontend
       description: data.description || "",
       details: data.details || [],
       sizes: data.sizes || [],
@@ -105,14 +119,53 @@ export async function fetchProductsByCategory(category: "watches" | "shoes"): Pr
       return [];
     }
 
+    // ✅ STEP 2 — Confirm frontend query (CRITICAL)
+    // Database has "Shoes" and "Watches" (capitalized), so we capitalize the category
+    const categoryCapitalized = category.charAt(0).toUpperCase() + category.slice(1); // "shoes" → "Shoes"
     const { data, error } = await supabase
       .from("products")
       .select("*")
-      .eq("category", category);
+      .eq("category", categoryCapitalized);
 
+    // ✅ STEP 3 — LOG what Supabase returns (THIS WILL EXPOSE IT)
+    console.log(`\n🔍 [${category.toUpperCase()}] DEBUG INFO:`);
+    console.log(`Query used: .eq("category", "${categoryCapitalized}")`);
+    console.log(`(Input: "${category}" → Capitalized: "${categoryCapitalized}")`);
+    console.log(`Fetched products:`, data);
+    console.log(`Products count:`, data?.length || 0);
+    console.log(`Error:`, error);
+    
     if (error) {
-      console.error(`Error fetching ${category}:`, error);
+      console.error(`❌ Error fetching ${category}:`, error);
+      console.error(`Error details:`, JSON.stringify(error, null, 2));
+      
+      // If RLS error, provide helpful message
+      if (error.message?.includes('row-level security') || error.message?.includes('RLS')) {
+        console.error(`\n⚠️ RLS POLICY ISSUE: Your Supabase RLS policy is blocking this query.`);
+        console.error(`Fix: Allow SELECT on products table for public/anonymous users.`);
+      }
+      
       return [];
+    }
+
+    // ❌ If data = [] → filter mismatch
+    if (!data || data.length === 0) {
+      console.warn(`\n⚠️ NO PRODUCTS FOUND for category "${category}"`);
+      console.warn(`Possible causes:`);
+      console.warn(`1. Category value mismatch - Database might have "Shoes" (capitalized) instead of "shoes"`);
+      console.warn(`2. No products in database with category = "${category}"`);
+      console.warn(`3. RLS policy blocking results`);
+      
+      // Try to fetch all products to see what categories exist
+      const { data: allData } = await supabase.from("products").select("category");
+      if (allData && allData.length > 0) {
+        const uniqueCategories = [...new Set(allData.map((p: any) => p.category))];
+        console.warn(`\n📊 Categories found in database:`, uniqueCategories);
+      console.warn(`Looking for: "${categoryCapitalized}" (capitalized from "${category}")`);
+      console.warn(`Case-sensitive match required!`);
+      }
+    } else {
+      console.log(`✅ Successfully fetched ${data.length} products for category "${category}"`);
     }
 
     // Handle both 'image' and 'image_url' fields from Supabase
@@ -126,7 +179,7 @@ export async function fetchProductsByCategory(category: "watches" | "shoes"): Pr
         price: item.price,
         image: primaryImage,
         images: imageArray.length > 0 ? imageArray : [primaryImage],
-        category: item.category,
+        category: (item.category || '').toLowerCase() as 'watches' | 'shoes', // Normalize to lowercase for frontend
         description: item.description || "",
         details: item.details || [],
         sizes: item.sizes || [],

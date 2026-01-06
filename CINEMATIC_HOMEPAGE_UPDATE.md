@@ -20,7 +20,7 @@ Successfully transformed the VENYR homepage into a **stunning, cinematic, engagi
 - **Floating particles** - 8 subtle burgundy dots floating slowly
 
 **Content:**
-- **Animated badge**: "● NEW COLLECTION 2025" with pulse
+- **Animated badge**: "● NEW COLLECTION 2026" with pulse
 - **Large headline**: "Timeless by Design," (80px+ responsive)
 - **Burgundy italic second line**: "Crafted for You" (72px+)
 - **Description text**: Fades in 0.5s after headline
