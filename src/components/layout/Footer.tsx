@@ -162,7 +162,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="container-main py-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>© 2026 Developed & Manage By Irtaza Butt. All rights reserved.</p>
+          <p>© 2026 Developed & Manage By Muhammad Bilal. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary transition-colors duration-200">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-colors duration-200">Terms of Service</a>
