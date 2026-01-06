@@ -19,7 +19,7 @@ export function DualCollections() {
               <motion.div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                  backgroundImage: 'url(https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=1200&q=80)',
+                  backgroundImage: 'url(https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80)',
                 }}
                 whileHover={{ scale: 1.12 }}
                 transition={{ duration: 0.5 }}

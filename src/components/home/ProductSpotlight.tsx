@@ -1,12 +1,25 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star } from 'lucide-react';
-import { watches } from '@/data/products';
+import { ArrowRight, Star, Loader2 } from 'lucide-react';
+import { useProductsByCategory } from '@/hooks/useProducts';
 import { formatPrice } from '@/lib/priceFormatter';
 
 export function ProductSpotlight() {
-  // Get featured product
-  const spotlightProduct = watches.find(p => p.id === 'watch-1');
+  const { data: watches = [], isLoading } = useProductsByCategory('watches');
+  
+  // Get first featured watch or first watch
+  const spotlightProduct = watches.find(p => p.featured) || watches[0];
+  
+  if (isLoading) {
+    return (
+      <section className="py-24 md:py-32 relative overflow-hidden">
+        <div className="container-main text-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </section>
+    );
+  }
   
   if (!spotlightProduct) return null;
 
@@ -44,7 +57,8 @@ export function ProductSpotlight() {
             <div className="aspect-square rounded-3xl overflow-hidden bg-secondary border border-border relative group">
               <motion.img
                 src={spotlightProduct.image}
-                alt={spotlightProduct.name}
+                alt={`${spotlightProduct.name} - Featured premium watch with Swiss movement by VENYR`}
+                loading="lazy"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.6 }}

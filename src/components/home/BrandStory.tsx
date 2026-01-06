@@ -36,7 +36,7 @@ export function BrandStory() {
           <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium">OUR PHILOSOPHY</span>
           
           <blockquote className="font-serif text-3xl md:text-4xl lg:text-5xl mt-8 mb-12 leading-relaxed max-w-4xl mx-auto text-foreground">
-            We believe in the art of slow fashion. Each piece in our collection is carefully curated for its craftsmanship and timeless appeal.
+            We believe in the art of slow fashion. Each piece in our collection is carefully curated for its craftsmanship and timeless appeal. Quality over quantity, always.
           </blockquote>
 
           {/* CTA */}

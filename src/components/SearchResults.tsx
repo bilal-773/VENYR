@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { allProducts } from '@/data/products';
+import { useProducts } from '@/hooks/useProducts';
 import { formatPrice } from '@/lib/priceFormatter';
 
 interface SearchResultsProps {
@@ -12,11 +12,12 @@ interface SearchResultsProps {
 
 export function SearchResults({ isOpen, onClose }: SearchResultsProps) {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState(allProducts);
+  const [results, setResults] = useState<any[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const { data: allProducts = [] } = useProducts();
 
   useEffect(() => {
-    if (query.trim()) {
+    if (query.trim() && allProducts.length) {
       const searchTerm = query.toLowerCase();
       const filtered = allProducts.filter(
         (product) =>
@@ -29,7 +30,7 @@ export function SearchResults({ isOpen, onClose }: SearchResultsProps) {
     } else {
       setResults([]);
     }
-  }, [query]);
+  }, [query, allProducts]);
 
   const handleClose = useCallback(() => {
     setQuery('');

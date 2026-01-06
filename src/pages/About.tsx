@@ -4,16 +4,16 @@ import { ArrowRight } from 'lucide-react';
 
 const values = [
   {
-    title: 'Craftsmanship',
-    description: 'Every product is selected for its exceptional quality and attention to detail.',
-  },
-  {
-    title: 'Sustainability',
-    description: 'We partner with artisans who use ethically sourced materials.',
+    title: 'Quality Without Compromise',
+    description: 'We source only the finest materials and work with artisans who share our commitment to excellence. Every piece is inspected multiple times before earning the VENYR name.',
   },
   {
     title: 'Timeless Design',
-    description: 'We curate pieces that transcend trends and remain stylish for years.',
+    description: 'Trends come and go, but true style endures. We design pieces that look as good in ten years as they do today—classic silhouettes with subtle, refined details.',
+  },
+  {
+    title: 'Sustainable Craftsmanship',
+    description: 'Fast fashion has no place in our world. We believe in creating fewer, better things that last. Our Goodyear-welted boots can be resoled. Our watches are built to be passed down.',
   },
 ];
 
@@ -53,13 +53,13 @@ export default function About() {
               </h2>
               <div className="space-y-5 text-muted-foreground leading-relaxed">
                 <p>
-                  VENYR was founded with a simple vision: to make premium timepieces and handcrafted footwear accessible to those who appreciate quality over quantity.
+                  VENYR was founded with a simple vision: to make premium timepieces and handcrafted footwear accessible to those who appreciate quality over quantity. We believed that true luxury lies not in logos or fleeting trends, but in the subtle details, the quality of materials, and the story behind each piece.
                 </p>
                 <p>
-                  Our journey began in a small workshop where we carefully curated our first collection of watches from master craftsmen. Today, we've expanded to include an exceptional range of Chelsea boots, each pair handmade using traditional techniques.
+                  Our journey began in a small workshop where we carefully curated our first collection of watches from master craftsmen. Today, we've expanded to include an exceptional range of Chelsea boots, each pair handmade using traditional techniques passed down through generations. But our mission remains unchanged: to provide timeless pieces that you'll treasure for years to come.
                 </p>
                 <p>
-                  We believe that true luxury lies not in logos or fleeting trends, but in the subtle details, the quality of materials, and the story behind each piece.
+                  We source only the finest materials and work with artisans who share our commitment to excellence. Every piece is inspected multiple times before earning the VENYR name. From the moment a product enters our collection to when it reaches your hands, we ensure every detail meets our exacting standards.
                 </p>
               </div>
             </div>
@@ -80,6 +80,9 @@ export default function About() {
           <div className="text-center mb-16">
             <span className="text-muted-foreground text-xs uppercase tracking-[0.2em]">What We Stand For</span>
             <h2 className="font-serif text-3xl md:text-4xl mt-4">Our Values</h2>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+              At VENYR, we're not just selling products—we're building a community of individuals who value quality, craftsmanship, and timeless style.
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
@@ -104,7 +107,8 @@ export default function About() {
             <div className="order-2 lg:order-1 aspect-square bg-secondary rounded-3xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80"
-                alt="Quality craftsmanship"
+                alt="VENYR quality craftsmanship - Premium materials and attention to detail"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -113,8 +117,11 @@ export default function About() {
               <h2 className="font-serif text-3xl md:text-4xl mt-4 mb-8">
                 Commitment to Quality
               </h2>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Quality is at the heart of everything we do. From the moment a product enters our collection to when it reaches your hands, we ensure every detail meets our exacting standards. We believe in transparent pricing—no inflated markups, no artificial scarcity. We offer exceptional quality at fair prices by selling directly to you, cutting out traditional retail markups.
+              </p>
               <p className="text-muted-foreground mb-10 leading-relaxed">
-                Quality is at the heart of everything we do. From the moment a product enters our collection to when it reaches your hands, we ensure every detail meets our exacting standards.
+                Every VENYR piece comes with a lifetime craftsmanship warranty, certificate of authenticity, free worldwide shipping, 30-day money-back guarantee, and expert customer service. This is fashion that respects both people and planet.
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {commitments.map((commitment, index) => (

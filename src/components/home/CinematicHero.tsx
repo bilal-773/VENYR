@@ -4,7 +4,7 @@ import { ArrowRight, ArrowDown, Truck, Award, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const heroImages = [
-  'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=1920&q=80',
+  'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1920&q=80',
   'https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=1920&q=80',
   'https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=1920&q=80',
   'https://images.unsplash.com/photo-1622434641406-a158123450f9?w=1920&q=80',
@@ -133,7 +133,7 @@ export function CinematicHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            Discover our curated collection of premium timepieces and handcrafted Chelsea boots, designed for those who appreciate the finer things.
+            Discover our curated collection of premium timepieces and handcrafted Chelsea boots, designed for those who appreciate the finer things in life. Each piece tells a story of exceptional craftsmanship and timeless elegance.
           </motion.p>
 
           {/* Trust Indicators */}

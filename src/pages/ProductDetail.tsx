@@ -1,24 +1,51 @@
-import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, Minus, Plus, Check, Heart, Share2, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, Minus, Plus, Check, Heart, Share2, Star, Shield, Truck, RotateCcw, Lock, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/products/ProductCard';
-import { allProducts } from '@/data/products';
+import { useProduct, useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/context/CartContext';
+import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
+import { useWishlist } from '@/context/WishlistContext';
+import { SizeGuideDropdown } from '@/components/SizeGuideModal';
 import { cn } from '@/lib/utils';
 import { formatPrice } from '@/lib/priceFormatter';
+import { toast } from 'sonner';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
-  const product = allProducts.find(p => p.id === id);
+  const navigate = useNavigate();
+  const { data: product, isLoading } = useProduct(id);
+  const { data: allProducts = [] } = useProducts();
   const { addItem } = useCart();
+  const { addToRecentlyViewed } = useRecentlyViewed();
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  
+  // Track recently viewed
+  useEffect(() => {
+    if (product) {
+      addToRecentlyViewed(product);
+    }
+  }, [product, addToRecentlyViewed]);
+
+  const isWishlisted = product ? isInWishlist(product.id) : false;
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container-main py-32 text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   if (!product) {
     return (
@@ -42,13 +69,13 @@ export default function ProductDetail() {
       return;
     }
     addItem({
-      id: product.id,
+      product_id: product.id,
       name: product.name,
       price: product.price,
       image: product.image,
       size: selectedSize || product.sizes[0],
       category: product.category,
-    });
+    }, quantity);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
@@ -85,7 +112,7 @@ export default function ProductDetail() {
               {/* Wishlist & Share Buttons */}
               <div className="absolute top-4 right-4 flex gap-2">
                 <motion.button
-                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  onClick={() => product && toggleWishlist(product)}
                   className={cn(
                     'w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center shadow-lg transition-all duration-300',
                     isWishlisted && 'bg-primary text-primary-foreground'
@@ -94,6 +121,7 @@ export default function ProductDetail() {
                   whileTap={{ scale: 0.9 }}
                   animate={{ scale: isWishlisted ? [1, 1.2, 1] : 1 }}
                   transition={{ duration: 0.3 }}
+                  aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                 >
                   <Heart
                     className="w-5 h-5"
@@ -125,7 +153,8 @@ export default function ProductDetail() {
                   >
                     <img
                       src={image}
-                      alt={`${product.name} ${index + 1}`}
+                      alt={`${product.name} - View ${index + 1} - Premium ${product.category === 'watches' ? 'watch' : 'Chelsea boot'} by VENYR`}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </motion.button>
@@ -154,9 +183,7 @@ export default function ProductDetail() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Size</label>
-                    <button className="text-xs text-primary hover:text-primary/80 transition-colors">
-                      Size Guide
-                    </button>
+                    {product && <SizeGuideDropdown product={product} />}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map(size => (
@@ -213,13 +240,33 @@ export default function ProductDetail() {
                 </div>
               </div>
 
+              {/* Trust Badges */}
+              <div className="grid grid-cols-2 gap-3 py-4 border-y border-border">
+                <div className="flex items-center gap-2 text-xs">
+                  <Truck className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">Free Shipping</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <RotateCcw className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">30-Day Returns</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">Lifetime Warranty</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <Lock className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">Secure Checkout</span>
+                </div>
+              </div>
+
               {/* Add to Cart */}
               <motion.button
                 onClick={handleAddToCart}
                 disabled={!selectedSize && product.sizes.length > 1}
                 className={cn(
                   'btn-primary w-full py-5 text-base flex items-center justify-center gap-3',
-                  !selectedSize && product.sizes.length > 1 && 'opacity-50 cursor-not-allowed',
+                  (!selectedSize && product.sizes.length > 1) && 'opacity-50 cursor-not-allowed',
                   isAdded && 'bg-[#4CAF50] hover:bg-[#4CAF50]'
                 )}
                 whileHover={selectedSize || product.sizes.length === 1 ? { scale: 1.02 } : {}}
@@ -293,6 +340,7 @@ export default function ProductDetail() {
           </section>
         )}
       </div>
+
     </Layout>
   );
 }

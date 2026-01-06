@@ -1,12 +1,18 @@
-import { X, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X, Plus, Minus, ShoppingBag, ArrowRight, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { cn } from '@/lib/utils';
 import { formatPrice } from '@/lib/priceFormatter';
 
 export function Cart() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal } = useCart();
+  const navigate = useNavigate();
+  const { items, isOpen, isLoading, closeCart, removeItem, updateQuantity, subtotal } = useCart();
+
+  const handleCheckout = () => {
+    closeCart();
+    navigate('/checkout');
+  };
 
   return (
     <>
@@ -64,7 +70,12 @@ export function Cart() {
 
               {/* Content */}
               <div className="flex-1 overflow-y-auto">
-                {items.length === 0 ? (
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+                    <p className="text-muted-foreground">Loading cart...</p>
+                  </div>
+                ) : items.length === 0 ? (
                   <motion.div
                     className="flex flex-col items-center justify-center h-full p-8 text-center"
                     initial={{ opacity: 0, y: 20 }}
@@ -96,7 +107,7 @@ export function Cart() {
                     <AnimatePresence mode="popLayout">
                       {items.map((item, index) => (
                         <motion.li
-                          key={`${item.id}-${item.size}`}
+                          key={item.id}
                           className="p-6 flex gap-5"
                           initial={{ opacity: 0, x: 50 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -119,7 +130,7 @@ export function Cart() {
                             <div className="flex items-center justify-between mt-auto pt-3">
                               <div className="flex items-center border border-border rounded-lg overflow-hidden">
                                 <motion.button
-                                  onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
+                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                   className="p-2 hover:bg-primary/10 transition-colors"
                                   aria-label="Decrease quantity"
                                   whileTap={{ scale: 0.9 }}
@@ -136,7 +147,7 @@ export function Cart() {
                                   {item.quantity}
                                 </motion.span>
                                 <motion.button
-                                  onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
+                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                   className="p-2 hover:bg-primary/10 transition-colors"
                                   aria-label="Increase quantity"
                                   whileTap={{ scale: 0.9 }}
@@ -145,7 +156,7 @@ export function Cart() {
                                 </motion.button>
                               </div>
                               <motion.button
-                                onClick={() => removeItem(item.id, item.size)}
+                                onClick={() => removeItem(item.id)}
                                 className="text-muted-foreground hover:text-primary text-xs transition-colors"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
@@ -184,7 +195,10 @@ export function Cart() {
                   <p className="text-muted-foreground text-xs">
                     Shipping and taxes calculated at checkout.
                   </p>
-                  <button className="btn-primary w-full flex items-center justify-center gap-2">
+                  <button 
+                    onClick={handleCheckout}
+                    className="btn-primary w-full flex items-center justify-center gap-2"
+                  >
                     Checkout
                     <ArrowRight className="w-4 h-4" />
                   </button>

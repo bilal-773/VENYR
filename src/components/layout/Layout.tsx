@@ -3,6 +3,7 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { Cart } from '../cart/Cart';
 import { ScrollProgress } from '../ScrollProgress';
+import { SocialProofToast } from '../SocialProofToast';
 
 interface LayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export function Layout({ children }: LayoutProps) {
       <main className="flex-1">{children}</main>
       <Footer />
       <Cart />
+      <SocialProofToast />
     </div>
   );
 }

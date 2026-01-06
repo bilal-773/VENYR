@@ -512,4 +512,31 @@
   .image-shine:hover::after {
     @apply translate-x-[200%];
   }
+
+  /* Scroll Reveal Animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Enhanced Button Animations */
+  .btn-primary,
+  .btn-secondary {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 30, 63, 0.4);
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+  }
 }

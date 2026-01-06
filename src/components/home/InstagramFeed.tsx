@@ -4,7 +4,7 @@ import { Instagram, Heart, MessageCircle } from 'lucide-react';
 const instagramPosts = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80',
     likes: 1240,
     comments: 48,
   },
@@ -80,7 +80,8 @@ export function InstagramFeed() {
             >
               <img
                 src={post.image}
-                alt={`Instagram post ${post.id}`}
+                alt={`VENYR Instagram post ${post.id} - Premium ${post.id <= 3 ? 'watch' : 'boot'} lifestyle photography`}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               

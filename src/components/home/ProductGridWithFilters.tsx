@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProductCard } from '@/components/products/ProductCard';
-import { allProducts } from '@/data/products';
+import { useProducts } from '@/hooks/useProducts';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 const filterTabs = [
   { id: 'all', label: 'All Products' },
@@ -15,8 +16,10 @@ const filterTabs = [
 export function ProductGridWithFilters() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [displayCount, setDisplayCount] = useState(8);
+  const { data: allProducts = [], isLoading } = useProducts();
 
   const filteredProducts = useMemo(() => {
+    if (!allProducts.length) return [];
     let products = [...allProducts];
 
     switch (activeFilter) {
@@ -38,9 +41,22 @@ export function ProductGridWithFilters() {
     }
 
     return products.slice(0, displayCount);
-  }, [activeFilter, displayCount]);
+  }, [activeFilter, displayCount, allProducts]);
 
-  const hasMore = displayCount < allProducts.length;
+  const hasMore = displayCount < (allProducts.length || 0);
+
+  if (isLoading) {
+    return (
+      <section className="py-24 md:py-32 bg-secondary/20">
+        <div className="container-main">
+          <div className="text-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading products...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 md:py-32 bg-secondary/20">

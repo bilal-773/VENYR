@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, ShoppingBag, Plus, Heart } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { cn } from '@/lib/utils';
 import { formatPrice } from '@/lib/priceFormatter';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
   product: Product;
@@ -16,26 +17,21 @@ interface ProductCardProps {
 export function ProductCard({ product, className, index = 0 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const navigate = useNavigate();
   const { addItem } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
     addItem({
-      id: product.id,
+      product_id: product.id,
       name: product.name,
       price: product.price,
       image: product.image,
       size: product.sizes[0],
       category: product.category,
     });
-  };
-
-  const handleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
   };
 
   return (
@@ -69,37 +65,12 @@ export function ProductCard({ product, className, index = 0 }: ProductCardProps)
             transition={{ duration: 0.7, ease: 'easeOut' }}
           />
 
-          {/* Wishlist Button */}
-          <motion.button
-            onClick={handleWishlist}
-            className={cn(
-              'absolute top-4 right-4 w-10 h-10 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center',
-              'shadow-lg transition-all duration-300',
-              isWishlisted && 'bg-primary text-primary-foreground'
-            )}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-          >
-            <motion.div
-              animate={{ scale: isWishlisted ? [1, 1.3, 1] : 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Heart
-                className="w-5 h-5"
-                fill={isWishlisted ? 'currentColor' : 'none'}
-                strokeWidth={2}
-              />
-            </motion.div>
-          </motion.button>
-
           {/* Quick Add Button */}
           <motion.button
             onClick={handleAddToCart}
             className={cn(
               'absolute bottom-4 left-4 right-4 bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(139,30,63,0.4)] hover:shadow-[0_0_30px_rgba(139,30,63,0.6)]',
-              'transition-all duration-300 hover:scale-105 active:scale-95'
+            'transition-all duration-300 hover:scale-105 active:scale-95'
             )}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}

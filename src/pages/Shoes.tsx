@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import { Filter, X } from 'lucide-react';
+import { Filter, X, Loader2 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/products/ProductCard';
 import { ProductFilters, Filters } from '@/components/products/ProductFilters';
-import { shoes } from '@/data/products';
+import { useProductsByCategory } from '@/hooks/useProducts';
 import { cn } from '@/lib/utils';
 
 export default function Shoes() {
@@ -14,8 +14,10 @@ export default function Shoes() {
     sizes: [],
     colors: [],
   });
+  const { data: shoes = [], isLoading } = useProductsByCategory('shoes');
 
   const filteredProducts = useMemo(() => {
+    if (!shoes.length) return [];
     let result = [...shoes];
 
     if (filters.priceRange) {
@@ -49,7 +51,18 @@ export default function Shoes() {
     }
 
     return result;
-  }, [filters, sort]);
+  }, [filters, sort, shoes]);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container-main py-32 text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading shoes...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

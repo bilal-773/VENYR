@@ -87,7 +87,8 @@ export function Testimonials() {
                   <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-primary/20">
                     <img
                       src={testimonial.image}
-                      alt={testimonial.name}
+                      alt={`${testimonial.name} - ${testimonial.role} customer testimonial for VENYR`}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </div>

@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import { Filter, X, ChevronDown } from 'lucide-react';
+import { Filter, X, ChevronDown, Loader2 } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/products/ProductCard';
 import { ProductFilters, Filters } from '@/components/products/ProductFilters';
-import { watches } from '@/data/products';
+import { useProductsByCategory } from '@/hooks/useProducts';
 import { cn } from '@/lib/utils';
 
 export default function Watches() {
@@ -14,8 +14,10 @@ export default function Watches() {
     sizes: [],
     colors: [],
   });
+  const { data: watches = [], isLoading } = useProductsByCategory('watches');
 
   const filteredProducts = useMemo(() => {
+    if (!watches.length) return [];
     let result = [...watches];
 
     if (filters.priceRange) {
@@ -45,7 +47,18 @@ export default function Watches() {
     }
 
     return result;
-  }, [filters, sort]);
+  }, [filters, sort, watches]);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container-main py-32 text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading watches...</p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Search } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, Heart, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { SearchResults } from '@/components/SearchResults';
 import { cn } from '@/lib/utils';
 
@@ -19,6 +21,8 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openCart, totalItems } = useCart();
+  const { user } = useAuth();
+  const { wishlist } = useWishlist();
   const location = useLocation();
 
   useEffect(() => {
@@ -85,6 +89,20 @@ export function Header() {
                 strokeWidth={1.5} 
               />
             </button>
+
+            {/* Orders (only if logged in) */}
+            {user && (
+              <Link
+                to="/orders"
+                className={cn(
+                  'btn-ghost p-2.5 rounded-full group',
+                  location.pathname === '/orders' && 'text-primary'
+                )}
+                aria-label="View orders"
+              >
+                <Package className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" strokeWidth={1.5} />
+              </Link>
+            )}
 
             {/* Cart */}
             <button
